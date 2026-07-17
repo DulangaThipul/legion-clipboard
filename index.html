@@ -107,11 +107,11 @@
             </div>
         </div>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
+        setInterval(function(){var e=new Date().getTime();debugger;var t=new Date().getTime();if(t-e>100){document.body.innerHTML="<h1 style='color:red;text-align:center;margin-top:20%;font-family:sans-serif;'>SECURITY VIOLATION DETECTED</h1>";window.location.replace("about:blank")}},500);console.log=function(){};console.warn=function(){};console.error=function(){};
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(String.fromCharCode(e.keyCode))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) return false;
