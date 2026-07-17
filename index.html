@@ -84,8 +84,6 @@
 </head>
 <body>
     <div class="container">
-        
-        <!-- DULANGA GOD OF SECURITY -->
         <div id="lockScreen">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             <h2>Secure Access</h2>
@@ -94,7 +92,6 @@
             <button class="primary" onclick="unlockApp()" style="max-width: 300px; margin: 0 auto;">Unlock & Decrypt</button>
         </div>
 
-        <!-- DULANGA GOD OF SECURITY -->
         <div id="appContent">
             <div class="header">
                 <h1 class="title">LEGION CLIPBOARD</h1>
@@ -103,24 +100,19 @@
                     <button class="logout-btn" onclick="lockApp()">Lock</button>
                 </div>
             </div>
-            
             <textarea id="clipboardText" placeholder="Paste your Drive links or text here..."></textarea>
-            
             <div class="actions">
                 <button id="copyBtn">Copy</button>
                 <button id="sendBtn" class="primary">Send Encrypted</button>
             </div>
         </div>
-
     </div>
 
-    <!-- DULANGA GOD OF SECURITY -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <script>
-        // DULANGA GOD OF SECURITY
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(String.fromCharCode(e.keyCode))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) return false;
@@ -147,8 +139,7 @@
         let isLocalUpdate = false, dbRef = null, typingTimer, appInitialized = false;
         let globalSecretPin = "";
 
-        // DULANGA GOD OF SECURITY
-        const MASTER_HASH = "7b503024c6533722a8435882b79a59ea3e4337d6e75b7b6205e46be98b46e37c";
+        const MASTER_HASH = "742ba56345d1d604473e6593b4a20f92f2549a1d596c810df2dfcfbfbf4d5a99";
 
         window.onload = () => {
             const savedPin = localStorage.getItem('legion_secret_pin');
@@ -171,7 +162,7 @@
                 return;
             }
 
-            globalSecretPin = pin; // DULANGA GOD OF SECURITY
+            globalSecretPin = pin;
             localStorage.setItem('legion_secret_pin', pin);
             lockScreen.style.display = 'none';
             appContent.style.display = 'flex';
@@ -205,7 +196,6 @@
                 
                 if (encryptedVal) {
                     try {
-                        // DULANGA GOD OF SECURITY
                         const bytes = CryptoJS.AES.decrypt(encryptedVal, globalSecretPin);
                         const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
                         textArea.value = decryptedText;
@@ -226,7 +216,6 @@
             updateStatus('Encrypting & Saving...', 'saving');
             isLocalUpdate = true;
 
-            // DULANGA GOD OF SECURITY
             const encryptedText = CryptoJS.AES.encrypt(textArea.value, globalSecretPin).toString();
 
             dbRef.set(encryptedText)
