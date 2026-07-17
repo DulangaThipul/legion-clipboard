@@ -116,7 +116,6 @@
         document.onkeydown = function(e) {
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(String.fromCharCode(e.keyCode))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) return false;
         };
-
         const firebaseConfig = {
             apiKey: "AIzaSyC8fyxMmHAipvfJaX8Ngoz9PrG4NCLY_SQ",
             authDomain: "my-clipboard-d8c77.firebaseapp.com",
@@ -126,7 +125,6 @@
             messagingSenderId: "434004415767",
             appId: "1:434004415767:web:0699c7a18bf31ef6bed352"
         };
-
         const lockScreen = document.getElementById('lockScreen');
         const appContent = document.getElementById('appContent');
         const pinInput = document.getElementById('pinInput');
@@ -134,44 +132,33 @@
         const sendBtn = document.getElementById('sendBtn');
         const copyBtn = document.getElementById('copyBtn');
         const statusIndicator = document.getElementById('statusIndicator');
-
         let isLocalUpdate = false, dbRef = null, typingTimer, appInitialized = false;
         let globalSecretPin = "";
-
-        const _0x1a = [31, 16, 23, 9, 21, 17].map(x => x + 56);
-        const _0x2b = _0x1a.map(x => String.fromCharCode(x)).join('');
-        const MASTER_HASH = CryptoJS.SHA256(_0x2b).toString();
-
+        const MASTER_HASH = "0ebc1dae6bdfa8743f575f9a92fe8db32fa20fbf6912dc14a7699fa0d5c88d16";
         window.onload = () => {
             const savedPin = localStorage.getItem('legion_secret_pin');
-            if (savedPin && CryptoJS.SHA256(savedPin).toString() === MASTER_HASH) {
+            if (savedPin && CryptoJS.SHA256("Lgn26_" + savedPin).toString() === MASTER_HASH) {
                 pinInput.value = savedPin;
                 unlockApp(true);
             }
         };
-
         function handleEnter(e) { if (e.key === 'Enter') unlockApp(); }
         function updateStatus(msg, cls) { statusIndicator.textContent = msg; statusIndicator.className = 'status ' + cls; }
-
         function unlockApp(autoUnlock = false) {
             const pin = pinInput.value.trim();
-            const inputHash = CryptoJS.SHA256(pin).toString();
-            
+            const inputHash = CryptoJS.SHA256("Lgn26_" + pin).toString();
             if (inputHash !== MASTER_HASH) {
                 if (!autoUnlock) alert("Access Denied.");
                 pinInput.value = '';
                 return;
             }
-
             globalSecretPin = pin;
             localStorage.setItem('legion_secret_pin', pin);
             lockScreen.style.display = 'none';
             appContent.style.display = 'flex';
-
             if (!appInitialized) initFirebase();
             else attachFirebaseListener();
         }
-
         function lockApp() {
             localStorage.removeItem('legion_secret_pin');
             globalSecretPin = "";
@@ -180,7 +167,6 @@
             lockScreen.style.display = 'block';
             if (dbRef) dbRef.off();
         }
-
         function initFirebase() {
             try {
                 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -189,26 +175,24 @@
                 appInitialized = true;
             } catch (error) { updateStatus('Error', 'error'); }
         }
-
         function attachFirebaseListener() {
             dbRef.on('value', snapshot => {
                 if (isLocalUpdate) { isLocalUpdate = false; return; }
                 const encryptedVal = snapshot.val();
-                
                 if (encryptedVal) {
                     try {
                         const bytes = CryptoJS.AES.decrypt(encryptedVal, globalSecretPin);
                         const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-                        if(decryptedText || decryptedText === "") {
+                        if (decryptedText || decryptedText === "") {
                             textArea.value = decryptedText;
-                            updateStatus('Synced & Decrypted', 'synced');
+                            updateStatus('Synced', 'synced');
                         } else {
                             textArea.value = "";
                             updateStatus('Synced', 'synced');
                         }
                     } catch (e) {
                         textArea.value = "";
-                        updateStatus('Decryption Error', 'error');
+                        updateStatus('Error', 'error');
                     }
                 } else {
                     textArea.value = '';
@@ -216,19 +200,15 @@
                 }
             });
         }
-
         function sendToCloud() {
             if (!dbRef || !globalSecretPin) return;
-            updateStatus('Encrypting & Saving...', 'saving');
+            updateStatus('Saving...', 'saving');
             isLocalUpdate = true;
-
             const encryptedText = CryptoJS.AES.encrypt(textArea.value, globalSecretPin).toString();
-
             dbRef.set(encryptedText)
-                .then(() => updateStatus('Synced Securely', 'synced'))
+                .then(() => updateStatus('Synced', 'synced'))
                 .catch(() => { updateStatus('Error', 'error'); isLocalUpdate = false; });
         }
-
         copyBtn.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(textArea.value);
@@ -236,10 +216,9 @@
                 setTimeout(() => copyBtn.innerHTML = orig, 2000);
             } catch (err) { alert('Failed.'); }
         });
-
         sendBtn.addEventListener('click', sendToCloud);
         textArea.addEventListener('input', () => {
-            updateStatus('Unsaved Changes', 'saving');
+            updateStatus('Saving...', 'saving');
             clearTimeout(typingTimer);
             typingTimer = setTimeout(sendToCloud, 1200);
         });
