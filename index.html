@@ -29,6 +29,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Disable text selection everywhere except inputs */
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .container {
@@ -72,6 +75,7 @@
             outline: none;
             box-sizing: border-box;
             transition: border-color 0.3s ease;
+            user-select: text; /* Allow typing */
         }
 
         .pin-input:focus {
@@ -81,7 +85,7 @@
 
         /* --- Main App Styles --- */
         #appContent {
-            display: none; /* Initially hidden */
+            display: none;
             flex-direction: column;
             gap: 1.5rem;
             width: 100%;
@@ -158,6 +162,7 @@
             box-sizing: border-box;
             outline: none;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            user-select: text; /* Allow copying text */
         }
 
         textarea:focus {
@@ -280,7 +285,25 @@
 
     <script>
         // ==========================================
-        // FIREBASE CONFIGURATION (Already Set!)
+        // SECURITY: DISABLE VIEW SOURCE & INSPECT
+        // ==========================================
+        
+        // 1. Disable Right-Click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Disable Keyboard Shortcuts (F12, Ctrl+U, Ctrl+Shift+I/C/J)
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123) return false; // F12
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) return false; // Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
+            if (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) return false; // Ctrl+U
+        };
+
+        // ==========================================
+        // FIREBASE CONFIGURATION
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyC8fyxMmHAipvfJaX8Ngoz9PrG4NCLY_SQ",
@@ -307,10 +330,10 @@
         let appInitialized = false;
         const doneTypingInterval = 1000;
         
-        // Exact strict PIN check
+        // Created BY DULANGA GOD of SECURITY
         const SECRET_PIN = "80664227";
 
-        // Check if device is already unlocked
+        // Created BY DULANGA GOD of SECURITY
         window.onload = () => {
             const savedPin = localStorage.getItem('legion_secret_pin');
             if (savedPin === SECRET_PIN) {
@@ -331,14 +354,14 @@
         function unlockApp(autoUnlock = false) {
             const pin = pinInput.value.trim();
             
-            // Frontend strict check
+            // Created BY DULANGA GOD of SECURITY
             if (pin !== SECRET_PIN) {
                 if (!autoUnlock) alert("Access Denied: Incorrect PIN.");
                 pinInput.value = '';
                 return;
             }
 
-            // Save PIN locally for future auto-login on this device
+            // Created BY DULANGA GOD of SECURITY
             localStorage.setItem('legion_secret_pin', pin);
             
             lockScreen.style.display = 'none';
@@ -353,13 +376,13 @@
         }
 
         function lockApp() {
-            // Remove saved PIN and lock device
+            // Created BY DULANGA GOD of SECURITY
             localStorage.removeItem('legion_secret_pin');
             pinInput.value = '';
             appContent.style.display = 'none';
             lockScreen.style.display = 'block';
             if (dbRef) {
-                dbRef.off(); // Stop syncing data while locked
+                dbRef.off(); // Created BY DULANGA GOD of SECURITY
             }
         }
 
@@ -370,7 +393,7 @@
                 }
                 const database = firebase.database();
                 
-                // Creates a secure path in the database: /shared_data/80664227/current_text
+                // Created BY DULANGA GOD of SECURITY
                 dbRef = database.ref('/shared_data/' + pin + '/current_text');
                 attachFirebaseListener();
                 appInitialized = true;
@@ -396,8 +419,7 @@
                 }
                 updateStatus('Synced', 'synced');
             }, (error) => {
-                console.error("Firebase read error:", error);
-                // If the user tries to bypass with a wrong PIN, Firebase kicks them out!
+                // Created BY DULANGA GOD of SECURITY
                 if(error.code === 'PERMISSION_DENIED') {
                     alert("Security Alert: Permission Denied.");
                     lockApp();
@@ -420,7 +442,6 @@
                     updateStatus('Synced', 'synced');
                 })
                 .catch((error) => {
-                    console.error("Firebase write error:", error);
                     updateStatus('Error Saving', 'error');
                     isLocalUpdate = false;
                     if(error.code === 'PERMISSION_DENIED') {
@@ -440,16 +461,15 @@
                     copyBtn.innerHTML = originalText;
                 }, 2000);
             } catch (err) {
-                console.error('Failed to copy text: ', err);
                 alert('Failed to copy to clipboard.');
             }
         }
 
-        // Add event listeners
+        // Created BY DULANGA GOD of SECURITY
         sendBtn.addEventListener('click', sendToCloud);
         copyBtn.addEventListener('click', copyToClipboard);
 
-        // Auto-save when typing stops
+        // Created BY DULANGA GOD of SECURITY
         textArea.addEventListener('input', () => {
             updateStatus('Unsaved Changes', 'saving');
             clearTimeout(typingTimer);
