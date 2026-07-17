@@ -20,240 +20,81 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Disable text selection everywhere except inputs */
-            user-select: none;
-            -webkit-user-select: none;
+            color: var(--text-main); min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            user-select: none; -webkit-user-select: none;
         }
 
         .container {
-            width: 90%;
-            max-width: 800px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            animation: fadeIn 0.5s ease-out;
-            box-sizing: border-box;
+            width: 90%; max-width: 800px; background: var(--glass-bg);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border); border-radius: 20px;
+            padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column; gap: 1.5rem; box-sizing: border-box;
         }
 
-        /* --- Lock Screen Styles --- */
-        #lockScreen {
-            text-align: center;
-            width: 100%;
-        }
-        
+        #lockScreen { text-align: center; width: 100%; }
         #lockScreen h2 { margin-bottom: 10px; color: #f8fafc; }
         #lockScreen p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
 
         .pin-input {
-            width: 100%;
-            max-width: 300px;
-            padding: 15px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: white;
-            font-size: 1.5rem;
-            text-align: center;
-            letter-spacing: 5px;
-            margin-bottom: 15px;
-            outline: none;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
-            user-select: text; /* Allow typing */
+            width: 100%; max-width: 300px; padding: 15px;
+            background: rgba(15, 23, 42, 0.6); border: 1px solid var(--glass-border);
+            border-radius: 12px; color: white; font-size: 1.3rem;
+            text-align: center; letter-spacing: 2px; margin-bottom: 15px;
+            outline: none; box-sizing: border-box; transition: border-color 0.3s ease;
+            user-select: text;
         }
+        .pin-input:focus { border-color: var(--accent); }
 
-        .pin-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-        }
-
-        /* --- Main App Styles --- */
-        #appContent {
-            display: none;
-            flex-direction: column;
-            gap: 1.5rem;
-            width: 100%;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 1rem;
-        }
-
-        .title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-
-        .status {
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            transition: color 0.3s ease;
-        }
-
-        .status::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--text-muted);
-            transition: background-color 0.3s ease;
-        }
-
+        #appContent { display: none; flex-direction: column; gap: 1.5rem; width: 100%; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; }
+        .title { font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+        .status { font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); }
+        .status::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: var(--text-muted); }
         .status.synced { color: var(--success); }
         .status.synced::before { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
-        
         .status.saving { color: #f59e0b; }
         .status.saving::before { background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation: pulse 1s infinite; }
-
         .status.error { color: var(--error); }
-        .status.error::before { background-color: var(--error); box-shadow: 0 0 8px var(--error); }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
 
         textarea {
-            width: 100%;
-            height: 300px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: var(--text-main);
-            font-family: inherit;
-            font-size: 1rem;
-            padding: 1rem;
-            resize: vertical;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            user-select: text; /* Allow copying text */
+            width: 100%; height: 300px; background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: var(--text-main); font-family: inherit; font-size: 1rem;
+            padding: 1rem; resize: vertical; box-sizing: border-box; outline: none;
+            user-select: text;
         }
 
-        textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-        }
-
-        .actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-        }
-
+        .actions { display: flex; gap: 1rem; justify-content: flex-end; }
         button {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-main);
+            padding: 0.75rem 1.5rem; border-radius: 8px; font-family: inherit; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
+        button:hover { background: var(--accent); border-color: var(--accent); }
+        button.primary { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border: none; }
+        .logout-btn { background: transparent; border: 1px solid var(--error); color: var(--error); width: auto; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+        .logout-btn:hover { background: var(--error); color: white; }
 
-        button:hover:not(:disabled) {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        button:active:not(:disabled) {
-            transform: translateY(1px);
-        }
-
-        button.primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border: none;
-        }
-
-        button.primary:hover:not(:disabled) {
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .logout-btn {
-            background: transparent;
-            border: 1px solid var(--error);
-            color: var(--error);
-            width: auto;
-            padding: 0.4rem 0.8rem;
-            font-size: 0.8rem;
-        }
-        .logout-btn:hover {
-            background: var(--error);
-            color: white;
-            border-color: var(--error);
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
-
-        @media (max-width: 600px) {
-            .container { width: 95%; padding: 1.5rem; }
-            .actions { flex-direction: column; }
-            .actions button { width: 100%; }
-        }
+        @media (max-width: 600px) { .container { width: 95%; padding: 1.5rem; } .actions { flex-direction: column; } .actions button { width: 100%; } }
     </style>
 </head>
 <body>
     <div class="container">
         
-        <!-- Lock Screen UI -->
+        <!-- DULANGA GOD OF SECURITY -->
         <div id="lockScreen">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             <h2>Secure Access</h2>
-            <p>Enter your secret PIN to unlock your clipboard</p>
-            <input type="password" id="pinInput" class="pin-input" placeholder="••••••••" onkeypress="handleEnter(event)">
-            <button class="primary" onclick="unlockApp()" style="max-width: 300px; margin: 0 auto;">Unlock Device</button>
+            <p>Enter your secret password to decrypt clipboard</p>
+            <input type="password" id="pinInput" class="pin-input" placeholder="Enter Password" onkeypress="handleEnter(event)">
+            <button class="primary" onclick="unlockApp()" style="max-width: 300px; margin: 0 auto;">Unlock & Decrypt</button>
         </div>
 
-        <!-- Main Clipboard UI -->
+        <!-- DULANGA GOD OF SECURITY -->
         <div id="appContent">
             <div class="header">
                 <h1 class="title">LEGION CLIPBOARD</h1>
@@ -266,45 +107,25 @@
             <textarea id="clipboardText" placeholder="Paste your Drive links or text here..."></textarea>
             
             <div class="actions">
-                <button id="copyBtn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    Copy
-                </button>
-                <button id="sendBtn" class="primary">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>
-                    Send to Cloud
-                </button>
+                <button id="copyBtn">Copy</button>
+                <button id="sendBtn" class="primary">Send Encrypted</button>
             </div>
         </div>
 
     </div>
 
-    <!-- Firebase App (the core Firebase SDK) -->
+    <!-- DULANGA GOD OF SECURITY -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <script>
-        // ==========================================
-        // SECURITY: DISABLE VIEW SOURCE & INSPECT
-        // ==========================================
-        
-        // 1. Disable Right-Click
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        // 2. Disable Keyboard Shortcuts (F12, Ctrl+U, Ctrl+Shift+I/C/J)
+        // DULANGA GOD OF SECURITY
+        document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
-            if (e.keyCode === 123) return false; // F12
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 'C'.charCodeAt(0)) return false; // Ctrl+Shift+C
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
-            if (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) return false; // Ctrl+U
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(String.fromCharCode(e.keyCode))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) return false;
         };
 
-        // ==========================================
-        // FIREBASE CONFIGURATION
-        // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyC8fyxMmHAipvfJaX8Ngoz9PrG4NCLY_SQ",
             authDomain: "my-clipboard-d8c77.firebaseapp.com",
@@ -314,7 +135,6 @@
             messagingSenderId: "434004415767",
             appId: "1:434004415767:web:0699c7a18bf31ef6bed352"
         };
-        // ==========================================
 
         const lockScreen = document.getElementById('lockScreen');
         const appContent = document.getElementById('appContent');
@@ -324,156 +144,109 @@
         const copyBtn = document.getElementById('copyBtn');
         const statusIndicator = document.getElementById('statusIndicator');
 
-        let isLocalUpdate = false;
-        let dbRef = null;
-        let typingTimer;
-        let appInitialized = false;
-        const doneTypingInterval = 1000;
-        
-        // Created BY DULANGA GOD of SECURITY
-        const SECRET_PIN = "80664227";
+        let isLocalUpdate = false, dbRef = null, typingTimer, appInitialized = false;
+        let globalSecretPin = "";
 
-        // Created BY DULANGA GOD of SECURITY
+        // DULANGA GOD OF SECURITY
+        const MASTER_HASH = "7b503024c6533722a8435882b79a59ea3e4337d6e75b7b6205e46be98b46e37c";
+
         window.onload = () => {
             const savedPin = localStorage.getItem('legion_secret_pin');
-            if (savedPin === SECRET_PIN) {
+            if (savedPin && CryptoJS.SHA256(savedPin).toString() === MASTER_HASH) {
                 pinInput.value = savedPin;
                 unlockApp(true);
             }
         };
 
-        function handleEnter(e) {
-            if (e.key === 'Enter') unlockApp();
-        }
-
-        function updateStatus(message, className) {
-            statusIndicator.textContent = message;
-            statusIndicator.className = 'status ' + className;
-        }
+        function handleEnter(e) { if (e.key === 'Enter') unlockApp(); }
+        function updateStatus(msg, cls) { statusIndicator.textContent = msg; statusIndicator.className = 'status ' + cls; }
 
         function unlockApp(autoUnlock = false) {
             const pin = pinInput.value.trim();
+            const inputHash = CryptoJS.SHA256(pin).toString();
             
-            // Created BY DULANGA GOD of SECURITY
-            if (pin !== SECRET_PIN) {
-                if (!autoUnlock) alert("Access Denied: Incorrect PIN.");
+            if (inputHash !== MASTER_HASH) {
+                if (!autoUnlock) alert("Access Denied.");
                 pinInput.value = '';
                 return;
             }
 
-            // Created BY DULANGA GOD of SECURITY
+            globalSecretPin = pin; // DULANGA GOD OF SECURITY
             localStorage.setItem('legion_secret_pin', pin);
-            
             lockScreen.style.display = 'none';
             appContent.style.display = 'flex';
 
-            if (!appInitialized) {
-                initFirebase(pin);
-            } else {
-                dbRef = firebase.database().ref('/shared_data/' + pin + '/current_text');
-                attachFirebaseListener();
-            }
+            if (!appInitialized) initFirebase();
+            else attachFirebaseListener();
         }
 
         function lockApp() {
-            // Created BY DULANGA GOD of SECURITY
             localStorage.removeItem('legion_secret_pin');
+            globalSecretPin = "";
             pinInput.value = '';
             appContent.style.display = 'none';
             lockScreen.style.display = 'block';
-            if (dbRef) {
-                dbRef.off(); // Created BY DULANGA GOD of SECURITY
-            }
+            if (dbRef) dbRef.off();
         }
 
-        function initFirebase(pin) {
+        function initFirebase() {
             try {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                const database = firebase.database();
-                
-                // Created BY DULANGA GOD of SECURITY
-                dbRef = database.ref('/shared_data/' + pin + '/current_text');
+                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+                dbRef = firebase.database().ref('/shared_clipboard/data');
                 attachFirebaseListener();
                 appInitialized = true;
-                
-            } catch (error) {
-                console.error("Initialization error:", error);
-                updateStatus('Error', 'error');
-            }
+            } catch (error) { updateStatus('Error', 'error'); }
         }
 
         function attachFirebaseListener() {
-            dbRef.on('value', (snapshot) => {
-                if (isLocalUpdate) {
-                    isLocalUpdate = false;
-                    return;
-                }
-
-                const val = snapshot.val();
-                if (val !== null) {
-                    textArea.value = val;
+            dbRef.on('value', snapshot => {
+                if (isLocalUpdate) { isLocalUpdate = false; return; }
+                const encryptedVal = snapshot.val();
+                
+                if (encryptedVal) {
+                    try {
+                        // DULANGA GOD OF SECURITY
+                        const bytes = CryptoJS.AES.decrypt(encryptedVal, globalSecretPin);
+                        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+                        textArea.value = decryptedText;
+                        updateStatus('Synced & Decrypted', 'synced');
+                    } catch (e) {
+                        textArea.value = "[Decryption Failed]";
+                        updateStatus('Decryption Error', 'error');
+                    }
                 } else {
                     textArea.value = '';
-                }
-                updateStatus('Synced', 'synced');
-            }, (error) => {
-                // Created BY DULANGA GOD of SECURITY
-                if(error.code === 'PERMISSION_DENIED') {
-                    alert("Security Alert: Permission Denied.");
-                    lockApp();
-                } else {
-                    updateStatus('Connection Error', 'error');
+                    updateStatus('Synced', 'synced');
                 }
             });
-            updateStatus('Ready', 'synced');
         }
 
         function sendToCloud() {
-            if (!dbRef) return;
-
-            const textToSave = textArea.value;
-            updateStatus('Saving...', 'saving');
+            if (!dbRef || !globalSecretPin) return;
+            updateStatus('Encrypting & Saving...', 'saving');
             isLocalUpdate = true;
 
-            dbRef.set(textToSave)
-                .then(() => {
-                    updateStatus('Synced', 'synced');
-                })
-                .catch((error) => {
-                    updateStatus('Error Saving', 'error');
-                    isLocalUpdate = false;
-                    if(error.code === 'PERMISSION_DENIED') {
-                        alert("Security Alert: Permission Denied.");
-                        lockApp();
-                    }
-                });
+            // DULANGA GOD OF SECURITY
+            const encryptedText = CryptoJS.AES.encrypt(textArea.value, globalSecretPin).toString();
+
+            dbRef.set(encryptedText)
+                .then(() => updateStatus('Synced Securely', 'synced'))
+                .catch(() => { updateStatus('Error', 'error'); isLocalUpdate = false; });
         }
 
-        async function copyToClipboard() {
+        copyBtn.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(textArea.value);
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
-                
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy to clipboard.');
-            }
-        }
+                const orig = copyBtn.innerHTML; copyBtn.innerHTML = 'Copied!';
+                setTimeout(() => copyBtn.innerHTML = orig, 2000);
+            } catch (err) { alert('Failed.'); }
+        });
 
-        // Created BY DULANGA GOD of SECURITY
         sendBtn.addEventListener('click', sendToCloud);
-        copyBtn.addEventListener('click', copyToClipboard);
-
-        // Created BY DULANGA GOD of SECURITY
         textArea.addEventListener('input', () => {
             updateStatus('Unsaved Changes', 'saving');
             clearTimeout(typingTimer);
-            typingTimer = setTimeout(sendToCloud, doneTypingInterval);
+            typingTimer = setTimeout(sendToCloud, 1200);
         });
     </script>
 </body>
