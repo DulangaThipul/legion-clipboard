@@ -1,229 +1,182 @@
 <!DOCTYPE html>
-//GOD OF SECURITY DULANGA BUT WHO IS THE LOOSER IN HTML THINK...
 <html lang="en">
-<head>
+<head> //KING OF LOOSERS >>> BIHIDU but GOD still GOD [හැම දේටම ක්‍රමයක් තියෙනවා මේකත් කඩන්න පුළුවන් වැඩ්ඩෙක්නම් DONT USE AI]
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEGION CLIPBOARD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
         :root {
-            --bg-color: #0f172a;
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-color: #060b14;
+            --glass-bg: rgba(15, 23, 42, 0.4);
+            --glass-border: rgba(37, 211, 102, 0.3);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --success: #10b981;
+            --accent: #25D366;
+            --accent-hover: #1da851;
+            --success: #25D366;
             --error: #ef4444;
         }
         body {
             margin: 0; padding: 0; font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: var(--text-main); min-height: 100vh;
-            display: flex; justify-content: center; align-items: center;
-            user-select: none; -webkit-user-select: none;
+            background: var(--bg-color); color: var(--text-main);
+            min-height: 100vh; display: flex; justify-content: center; align-items: center;
+            user-select: none; -webkit-user-select: none; overflow: hidden;
+        }
+        .blob {
+            position: fixed; filter: blur(90px); z-index: 1;
+            opacity: 0.6; animation: floatBlob 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blob-1 { width: 350px; height: 350px; background: var(--accent); top: -100px; left: -100px; border-radius: 50%; }
+        .blob-2 { width: 450px; height: 450px; background: #0c4a6e; bottom: -150px; right: -100px; border-radius: 50%; animation-delay: -5s; }
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 40px) scale(1.1); }
         }
         .container {
             width: 90%; max-width: 800px; background: var(--glass-bg);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            padding: 2.5rem; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
             display: flex; flex-direction: column; gap: 1.5rem; box-sizing: border-box;
+            position: relative; z-index: 10;
+            animation: smoothEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        #lockScreen { text-align: center; width: 100%; }
-        #lockScreen h2 { margin-bottom: 10px; color: #f8fafc; }
-        #lockScreen p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        @keyframes smoothEnter {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        #lockScreen { text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .lock-icon { animation: floatIcon 4s infinite ease-in-out; margin-bottom: 15px; color: var(--accent); }
+        @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        #lockScreen h2 { margin: 0 0 10px 0; color: #f8fafc; font-weight: 600; letter-spacing: 0.5px; }
+        #lockScreen p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; }
         .pin-input {
-            width: 100%; max-width: 300px; padding: 15px;
-            background: rgba(15, 23, 42, 0.6); border: 1px solid var(--glass-border);
-            border-radius: 12px; color: white; font-size: 1.3rem;
-            text-align: center; letter-spacing: 2px; margin-bottom: 15px;
-            outline: none; box-sizing: border-box; transition: border-color 0.3s ease;
-            user-select: text;
+            width: 100%; max-width: 320px; padding: 16px;
+            background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px; color: white; font-size: 1.4rem;
+            text-align: center; letter-spacing: 3px; margin-bottom: 20px;
+            outline: none; box-sizing: border-box; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); user-select: text;
         }
-        .pin-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
-        #appContent { display: none; flex-direction: column; gap: 1.5rem; width: 100%; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; }
-        .title { font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-        .status { font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); }
-        .status::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: var(--text-muted); }
+        .pin-input:focus {
+            border-color: var(--accent); background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.2); transform: scale(1.02);
+        }
+        #appContent { display: none; flex-direction: column; gap: 1.8rem; width: 100%; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1.2rem; }
+        .title { font-size: 1.6rem; font-weight: 600; letter-spacing: 1.5px; color: var(--text-main); margin: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .title span { color: var(--accent); }
+        .status { font-size: 0.85rem; display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .status::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: var(--text-muted); transition: all 0.4s ease; }
         .status.synced { color: var(--success); }
-        .status.synced::before { background-color: var(--success); box-shadow: 0 0 8px var(--success); }
+        .status.synced::before { background-color: var(--success); box-shadow: 0 0 12px var(--success); }
         .status.saving { color: #f59e0b; }
-        .status.saving::before { background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation: pulse 1s infinite; }
+        .status.saving::before { background-color: #f59e0b; box-shadow: 0 0 12px #f59e0b; animation: pulseDot 1s infinite alternate; }
         .status.error { color: var(--error); }
-        .status.error::before { background-color: var(--error); box-shadow: 0 0 8px var(--error); }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .status.error::before { background-color: var(--error); box-shadow: 0 0 12px var(--error); }
+        @keyframes pulseDot { from { transform: scale(1); opacity: 1; } to { transform: scale(1.5); opacity: 0.5; } }
         textarea {
-            width: 100%; height: 300px; background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--glass-border); border-radius: 12px;
-            color: var(--text-main); font-family: inherit; font-size: 1rem;
-            padding: 1rem; resize: vertical; box-sizing: border-box; outline: none;
-            user-select: text;
+            width: 100%; height: 320px; background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;
+            color: var(--text-main); font-family: inherit; font-size: 1.05rem; line-height: 1.6;
+            padding: 1.5rem; resize: vertical; box-sizing: border-box; outline: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); user-select: text;
         }
-        textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+        textarea:focus { border-color: var(--glass-border); background: rgba(0, 0, 0, 0.3); box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
         .actions { display: flex; gap: 1rem; justify-content: flex-end; }
         button {
-            background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-main);
-            padding: 0.75rem 1.5rem; border-radius: 8px; font-family: inherit; font-weight: 600;
-            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main); padding: 0.8rem 1.8rem; border-radius: 12px;
+            font-family: inherit; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; align-items: center; justify-content: center; gap: 0.6rem; backdrop-filter: blur(10px);
         }
-        button:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
-        button.primary { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border: none; }
-        button.primary:hover { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4); }
-        .logout-btn { background: transparent; border: 1px solid var(--error); color: var(--error); width: auto; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-        .logout-btn:hover { background: var(--error); color: white; }
-        @media (max-width: 600px) { .container { width: 95%; padding: 1.5rem; } .actions { flex-direction: column; } .actions button { width: 100%; } }
+        button:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        button:active { transform: translateY(0); }
+        button.primary { background: var(--accent); border: none; color: #000; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        button.primary:hover { background: var(--accent-hover); box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5); transform: translateY(-3px) scale(1.02); }
+        .logout-btn { background: transparent; border: 1px solid rgba(239, 68, 68, 0.3); color: var(--error); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; }
+        .logout-btn:hover { background: var(--error); color: white; border-color: var(--error); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
+        @media (max-width: 600px) { .container { width: 92%; padding: 1.5rem; } .actions { flex-direction: column; } button { width: 100%; } .blob-1 { width: 250px; height: 250px; } }
     </style>
-</head>
+</head> //KING OF LOOSERS >>> BIHIDU but GOD still GOD [හැම දේටම ක්‍රමයක් තියෙනවා මේකත් කඩන්න පුළුවන් වැඩ්ඩෙක්නම් DONT USE AI]
 <body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
     <div class="container">
         <div id="lockScreen">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <svg class="lock-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             <h2>Secure Access</h2>
-            <p>Enter your secret password to decrypt clipboard</p>
-            <input type="password" id="pinInput" class="pin-input" placeholder="Enter Password" onkeypress="handleEnter(event)">
-            <button class="primary" onclick="unlockApp()" style="max-width: 300px; margin: 0 auto;">Unlock & Decrypt</button>
+            <p>Authenticate to decrypt clipboard</p>
+            <input type="password" id="pinInput" class="pin-input" placeholder="Password" onkeypress="handleEnter(event)">
+            <button class="primary" onclick="unlockApp()" style="width: 100%; max-width: 320px;">Unlock & Decrypt</button>
         </div>
         <div id="appContent">
             <div class="header">
-                <h1 class="title">LEGION CLIPBOARD</h1>
+                <h1 class="title">LEGION <span>CLIP</span></h1>
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <div id="statusIndicator" class="status">Connecting...</div>
                     <button class="logout-btn" onclick="lockApp()">Lock</button>
                 </div>
             </div>
-            <textarea id="clipboardText" placeholder="Paste your Drive links or text here..."></textarea>
+            <textarea id="clipboardText" placeholder="Paste your encrypted contents here..."></textarea>
             <div class="actions">
                 <button id="copyBtn">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                     Copy
                 </button>
                 <button id="sendBtn" class="primary">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>
-                    Send Encrypted
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>
+                    Sync Encrypted
                 </button>
-            </div>
+            </div> //KING OF LOOSERS >>> BIHIDU but GOD still GOD [හැම දේටම ක්‍රමයක් තියෙනවා මේකත් කඩන්න පුළුවන් වැඩ්ඩෙක්නම් DONT USE AI]
         </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
-        setInterval(function(){var e=new Date().getTime();debugger;var t=new Date().getTime();if(t-e>100){document.body.innerHTML="<h1 style='color:red;text-align:center;margin-top:20%;font-family:sans-serif;'>SECURITY VIOLATION DETECTED</h1>";window.location.replace("about:blank")}},500);console.log=function(){};console.warn=function(){};console.error=function(){};
+        setInterval(function(){var e=new Date().getTime();debugger;var t=new Date().getTime();if(t-e>100){document.body.innerHTML="<h1 style='color:#25D366;text-align:center;margin-top:20%;font-family:sans-serif;font-weight:300;letter-spacing:2px;'>SECURITY LOCKDOWN</h1>";window.location.replace("about:blank")}},500);console.log=function(){};console.warn=function(){};console.error=function(){};
         document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(String.fromCharCode(e.keyCode))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) return false;
-        };
-        const firebaseConfig = {
-            apiKey: "AIzaSyC8fyxMmHAipvfJaX8Ngoz9PrG4NCLY_SQ",
-            authDomain: "my-clipboard-d8c77.firebaseapp.com",
-            databaseURL: "https://my-clipboard-d8c77-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "my-clipboard-d8c77",
-            storageBucket: "my-clipboard-d8c77.appspot.com",
-            messagingSenderId: "434004415767",
-            appId: "1:434004415767:web:0699c7a18bf31ef6bed352"
-        };
-        const lockScreen = document.getElementById('lockScreen');
-        const appContent = document.getElementById('appContent');
-        const pinInput = document.getElementById('pinInput');
-        const textArea = document.getElementById('clipboardText');
-        const sendBtn = document.getElementById('sendBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        const statusIndicator = document.getElementById('statusIndicator');
-        let isLocalUpdate = false, dbRef = null, typingTimer, appInitialized = false;
-        let globalSecretPin = "";
+        document.onkeydown = function(e) { if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(String.fromCharCode(e.keyCode))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) return false; };
+        const firebaseConfig = { apiKey: "AIzaSyC8fyxMmHAipvfJaX8Ngoz9PrG4NCLY_SQ", authDomain: "my-clipboard-d8c77.firebaseapp.com", databaseURL: "https://my-clipboard-d8c77-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "my-clipboard-d8c77", storageBucket: "my-clipboard-d8c77.appspot.com", messagingSenderId: "434004415767", appId: "1:434004415767:web:0699c7a18bf31ef6bed352" };
+        const lockScreen = document.getElementById('lockScreen'); const appContent = document.getElementById('appContent'); const pinInput = document.getElementById('pinInput'); const textArea = document.getElementById('clipboardText'); const sendBtn = document.getElementById('sendBtn'); const copyBtn = document.getElementById('copyBtn'); const statusIndicator = document.getElementById('statusIndicator');
+        let isLocalUpdate = false, dbRef = null, typingTimer, appInitialized = false; let globalSecretPin = "";
         const MASTER_HASH = "0ebc1dae6bdfa8743f575f9a92fe8db32fa20fbf6912dc14a7699fa0d5c88d16";
-        window.onload = () => {
-            const savedPin = localStorage.getItem('legion_secret_pin');
-            if (savedPin && CryptoJS.SHA256("Lgn26_" + savedPin).toString() === MASTER_HASH) {
-                pinInput.value = savedPin;
-                unlockApp(true);
-            }
-        };
+        window.onload = () => { const savedPin = localStorage.getItem('legion_secret_pin'); if (savedPin && CryptoJS.SHA256("Lgn26_" + savedPin).toString() === MASTER_HASH) { pinInput.value = savedPin; unlockApp(true); } };
         function handleEnter(e) { if (e.key === 'Enter') unlockApp(); }
         function updateStatus(msg, cls) { statusIndicator.textContent = msg; statusIndicator.className = 'status ' + cls; }
         function unlockApp(autoUnlock = false) {
-            const pin = pinInput.value.trim();
-            const inputHash = CryptoJS.SHA256("Lgn26_" + pin).toString();
-            if (inputHash !== MASTER_HASH) {
-                if (!autoUnlock) alert("Access Denied.");
-                pinInput.value = '';
-                return;
-            }
-            globalSecretPin = pin;
-            localStorage.setItem('legion_secret_pin', pin);
-            lockScreen.style.display = 'none';
-            appContent.style.display = 'flex';
-            if (!appInitialized) initFirebase();
-            else attachFirebaseListener();
+            const pin = pinInput.value.trim(); const inputHash = CryptoJS.SHA256("Lgn26_" + pin).toString();
+            if (inputHash !== MASTER_HASH) { if (!autoUnlock) { pinInput.style.transform = "translateX(-10px)"; setTimeout(()=>pinInput.style.transform = "translateX(10px)", 50); setTimeout(()=>pinInput.style.transform = "translateX(0)", 100); } pinInput.value = ''; return; }
+            globalSecretPin = pin; localStorage.setItem('legion_secret_pin', pin); lockScreen.style.display = 'none'; appContent.style.display = 'flex';
+            if (!appInitialized) initFirebase(); else attachFirebaseListener();
         }
-        function lockApp() {
-            localStorage.removeItem('legion_secret_pin');
-            globalSecretPin = "";
-            pinInput.value = '';
-            appContent.style.display = 'none';
-            lockScreen.style.display = 'block';
-            if (dbRef) dbRef.off();
-        }
-        function initFirebase() {
-            try {
-                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-                dbRef = firebase.database().ref('/shared_clipboard/data');
-                attachFirebaseListener();
-                appInitialized = true;
-            } catch (error) { updateStatus('Error', 'error'); }
-        }
+        function lockApp() { localStorage.removeItem('legion_secret_pin'); globalSecretPin = ""; pinInput.value = ''; appContent.style.display = 'none'; lockScreen.style.display = 'flex'; if (dbRef) dbRef.off(); }
+        function initFirebase() { try { if (!firebase.apps.length) firebase.initializeApp(firebaseConfig); dbRef = firebase.database().ref('/shared_clipboard/data'); attachFirebaseListener(); appInitialized = true; } catch (error) { updateStatus('Error', 'error'); } }
         function attachFirebaseListener() {
             dbRef.on('value', snapshot => {
                 if (isLocalUpdate) { isLocalUpdate = false; return; }
                 const encryptedVal = snapshot.val();
                 if (encryptedVal) {
                     try {
-                        const bytes = CryptoJS.AES.decrypt(encryptedVal, globalSecretPin);
-                        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-                        if (decryptedText || decryptedText === "") {
-                            textArea.value = decryptedText;
-                            updateStatus('Synced', 'synced');
-                        } else {
-                            textArea.value = "";
-                            updateStatus('Synced', 'synced');
-                        }
-                    } catch (e) {
-                        textArea.value = "";
-                        updateStatus('Error', 'error');
-                    }
-                } else {
-                    textArea.value = '';
-                    updateStatus('Synced', 'synced');
-                }
+                        const bytes = CryptoJS.AES.decrypt(encryptedVal, globalSecretPin); const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+                        if (decryptedText || decryptedText === "") { textArea.value = decryptedText; updateStatus('Synced', 'synced'); } else { textArea.value = ""; updateStatus('Synced', 'synced'); }
+                    } catch (e) { textArea.value = ""; updateStatus('Error', 'error'); }
+                } else { textArea.value = ''; updateStatus('Synced', 'synced'); }
             });
         }
         function sendToCloud() {
-            if (!dbRef || !globalSecretPin) return;
-            updateStatus('Saving...', 'saving');
-            isLocalUpdate = true;
+            if (!dbRef || !globalSecretPin) return; updateStatus('Encrypting...', 'saving'); isLocalUpdate = true;
             const encryptedText = CryptoJS.AES.encrypt(textArea.value, globalSecretPin).toString();
-            dbRef.set(encryptedText)
-                .then(() => updateStatus('Synced', 'synced'))
-                .catch(() => { updateStatus('Error', 'error'); isLocalUpdate = false; });
+            dbRef.set(encryptedText).then(() => updateStatus('Secured', 'synced')).catch(() => { updateStatus('Error', 'error'); isLocalUpdate = false; });
         }
-        copyBtn.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(textArea.value);
-                const orig = copyBtn.innerHTML; copyBtn.innerHTML = 'Copied!';
-                setTimeout(() => copyBtn.innerHTML = orig, 2000);
-            } catch (err) { alert('Failed.'); }
-        });
+        copyBtn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(textArea.value); const orig = copyBtn.innerHTML; copyBtn.innerHTML = 'Copied!'; setTimeout(() => copyBtn.innerHTML = orig, 2000); } catch (err) {} });
         sendBtn.addEventListener('click', sendToCloud);
-        textArea.addEventListener('input', () => {
-            updateStatus('Saving...', 'saving');
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(sendToCloud, 1200);
-        });
+        textArea.addEventListener('input', () => { updateStatus('Typing...', 'saving'); clearTimeout(typingTimer); typingTimer = setTimeout(sendToCloud, 1000); });
     </script>
-    //GOD OF SECURITY DULANGA BUT WHO IS THE LOOSER IN HTML THINK...
 </body>
-</html>
+</html> //KING OF LOOSERS >>> BIHIDU but GOD still GOD [හැම දේටම ක්‍රමයක් තියෙනවා මේකත් කඩන්න පුළුවන් වැඩ්ඩෙක්නම් DONT USE AI]
