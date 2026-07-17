@@ -6,7 +6,6 @@
     <title>LEGION CLIPBOARD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-
         :root {
             --bg-color: #0f172a;
             --glass-bg: rgba(30, 41, 59, 0.7);
@@ -18,7 +17,6 @@
             --success: #10b981;
             --error: #ef4444;
         }
-
         body {
             margin: 0; padding: 0; font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
@@ -26,7 +24,6 @@
             display: flex; justify-content: center; align-items: center;
             user-select: none; -webkit-user-select: none;
         }
-
         .container {
             width: 90%; max-width: 800px; background: var(--glass-bg);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -34,11 +31,9 @@
             padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             display: flex; flex-direction: column; gap: 1.5rem; box-sizing: border-box;
         }
-
         #lockScreen { text-align: center; width: 100%; }
         #lockScreen h2 { margin-bottom: 10px; color: #f8fafc; }
         #lockScreen p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-
         .pin-input {
             width: 100%; max-width: 300px; padding: 15px;
             background: rgba(15, 23, 42, 0.6); border: 1px solid var(--glass-border);
@@ -47,8 +42,7 @@
             outline: none; box-sizing: border-box; transition: border-color 0.3s ease;
             user-select: text;
         }
-        .pin-input:focus { border-color: var(--accent); }
-
+        .pin-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
         #appContent { display: none; flex-direction: column; gap: 1.5rem; width: 100%; }
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; }
         .title { font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
@@ -59,7 +53,8 @@
         .status.saving { color: #f59e0b; }
         .status.saving::before { background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation: pulse 1s infinite; }
         .status.error { color: var(--error); }
-
+        .status.error::before { background-color: var(--error); box-shadow: 0 0 8px var(--error); }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         textarea {
             width: 100%; height: 300px; background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--glass-border); border-radius: 12px;
@@ -67,18 +62,18 @@
             padding: 1rem; resize: vertical; box-sizing: border-box; outline: none;
             user-select: text;
         }
-
+        textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
         .actions { display: flex; gap: 1rem; justify-content: flex-end; }
         button {
             background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-main);
             padding: 0.75rem 1.5rem; border-radius: 8px; font-family: inherit; font-weight: 600;
             cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
-        button:hover { background: var(--accent); border-color: var(--accent); }
+        button:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
         button.primary { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border: none; }
+        button.primary:hover { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4); }
         .logout-btn { background: transparent; border: 1px solid var(--error); color: var(--error); width: auto; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
         .logout-btn:hover { background: var(--error); color: white; }
-
         @media (max-width: 600px) { .container { width: 95%; padding: 1.5rem; } .actions { flex-direction: column; } .actions button { width: 100%; } }
     </style>
 </head>
@@ -91,7 +86,6 @@
             <input type="password" id="pinInput" class="pin-input" placeholder="Enter Password" onkeypress="handleEnter(event)">
             <button class="primary" onclick="unlockApp()" style="max-width: 300px; margin: 0 auto;">Unlock & Decrypt</button>
         </div>
-
         <div id="appContent">
             <div class="header">
                 <h1 class="title">LEGION CLIPBOARD</h1>
@@ -102,8 +96,14 @@
             </div>
             <textarea id="clipboardText" placeholder="Paste your Drive links or text here..."></textarea>
             <div class="actions">
-                <button id="copyBtn">Copy</button>
-                <button id="sendBtn" class="primary">Send Encrypted</button>
+                <button id="copyBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                </button>
+                <button id="sendBtn" class="primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>
+                    Send Encrypted
+                </button>
             </div>
         </div>
     </div>
@@ -111,7 +111,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
@@ -139,7 +138,9 @@
         let isLocalUpdate = false, dbRef = null, typingTimer, appInitialized = false;
         let globalSecretPin = "";
 
-        const MASTER_HASH = "742ba56345d1d604473e6593b4a20f92f2549a1d596c810df2dfcfbfbf4d5a99";
+        const _0x1a = [31, 16, 23, 9, 21, 17].map(x => x + 56);
+        const _0x2b = _0x1a.map(x => String.fromCharCode(x)).join('');
+        const MASTER_HASH = CryptoJS.SHA256(_0x2b).toString();
 
         window.onload = () => {
             const savedPin = localStorage.getItem('legion_secret_pin');
@@ -198,10 +199,15 @@
                     try {
                         const bytes = CryptoJS.AES.decrypt(encryptedVal, globalSecretPin);
                         const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-                        textArea.value = decryptedText;
-                        updateStatus('Synced & Decrypted', 'synced');
+                        if(decryptedText || decryptedText === "") {
+                            textArea.value = decryptedText;
+                            updateStatus('Synced & Decrypted', 'synced');
+                        } else {
+                            textArea.value = "";
+                            updateStatus('Synced', 'synced');
+                        }
                     } catch (e) {
-                        textArea.value = "[Decryption Failed]";
+                        textArea.value = "";
                         updateStatus('Decryption Error', 'error');
                     }
                 } else {
