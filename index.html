@@ -45,6 +45,46 @@
             flex-direction: column;
             gap: 1.5rem;
             animation: fadeIn 0.5s ease-out;
+            box-sizing: border-box;
+        }
+
+        /* --- Lock Screen Styles --- */
+        #lockScreen {
+            text-align: center;
+            width: 100%;
+        }
+        
+        #lockScreen h2 { margin-bottom: 10px; color: #f8fafc; }
+        #lockScreen p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+
+        .pin-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .pin-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        /* --- Main App Styles --- */
+        #appContent {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
         }
 
         @keyframes fadeIn {
@@ -144,6 +184,7 @@
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
         }
 
@@ -157,11 +198,6 @@
         button:active:not(:disabled) {
             transform: translateY(1px);
         }
-        
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
 
         button.primary {
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
@@ -173,56 +209,69 @@
             box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
         }
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--error);
+            color: var(--error);
+            width: auto;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
         }
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.3);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(148, 163, 184, 0.5);
+        .logout-btn:hover {
+            background: var(--error);
+            color: white;
+            border-color: var(--error);
         }
 
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
+
         @media (max-width: 600px) {
-            .container {
-                width: 95%;
-                padding: 1.5rem;
-            }
-            .actions {
-                flex-direction: column;
-            }
-            button {
-                width: 100%;
-                justify-content: center;
-            }
+            .container { width: 95%; padding: 1.5rem; }
+            .actions { flex-direction: column; }
+            .actions button { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1 class="title">LEGION CLIPBOARD</h1>
-            <div id="statusIndicator" class="status">Initializing...</div>
-        </div>
         
-        <textarea id="clipboardText" placeholder="Paste your text or URLs here..."></textarea>
-        
-        <div class="actions">
-            <button id="copyBtn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                Copy
-            </button>
-            <button id="sendBtn" class="primary">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>
-                Send to Cloud
-            </button>
+        <!-- Lock Screen UI -->
+        <div id="lockScreen">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h2>Secure Access</h2>
+            <p>Enter your secret PIN to unlock your clipboard</p>
+            <input type="password" id="pinInput" class="pin-input" placeholder="••••••••" onkeypress="handleEnter(event)">
+            <button class="primary" onclick="unlockApp()" style="max-width: 300px; margin: 0 auto;">Unlock Device</button>
         </div>
+
+        <!-- Main Clipboard UI -->
+        <div id="appContent">
+            <div class="header">
+                <h1 class="title">LEGION CLIPBOARD</h1>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div id="statusIndicator" class="status">Connecting...</div>
+                    <button class="logout-btn" onclick="lockApp()">Lock</button>
+                </div>
+            </div>
+            
+            <textarea id="clipboardText" placeholder="Paste your Drive links or text here..."></textarea>
+            
+            <div class="actions">
+                <button id="copyBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                </button>
+                <button id="sendBtn" class="primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>
+                    Send to Cloud
+                </button>
+            </div>
+        </div>
+
     </div>
 
     <!-- Firebase App (the core Firebase SDK) -->
@@ -231,7 +280,7 @@
 
     <script>
         // ==========================================
-        // FIREBASE CONFIGURATION UPDATED BY GEMINI
+        // FIREBASE CONFIGURATION (Already Set!)
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyC8fyxMmHAipvfJaX8Ngoz9PrG4NCLY_SQ",
@@ -244,6 +293,9 @@
         };
         // ==========================================
 
+        const lockScreen = document.getElementById('lockScreen');
+        const appContent = document.getElementById('appContent');
+        const pinInput = document.getElementById('pinInput');
         const textArea = document.getElementById('clipboardText');
         const sendBtn = document.getElementById('sendBtn');
         const copyBtn = document.getElementById('copyBtn');
@@ -252,56 +304,112 @@
         let isLocalUpdate = false;
         let dbRef = null;
         let typingTimer;
+        let appInitialized = false;
         const doneTypingInterval = 1000;
+        
+        // Exact strict PIN check
+        const SECRET_PIN = "80664227";
+
+        // Check if device is already unlocked
+        window.onload = () => {
+            const savedPin = localStorage.getItem('legion_secret_pin');
+            if (savedPin === SECRET_PIN) {
+                pinInput.value = savedPin;
+                unlockApp(true);
+            }
+        };
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') unlockApp();
+        }
 
         function updateStatus(message, className) {
             statusIndicator.textContent = message;
             statusIndicator.className = 'status ' + className;
         }
 
-        function initApp() {
-            try {
-                if (firebaseConfig.apiKey === "YOUR_API_KEY") {
-                    updateStatus('Configuration Needed', 'error');
-                    textArea.value = "Welcome to LEGION CLIPBOARD!\n\nTo enable syncing, please update the 'firebaseConfig' object in the HTML source with your actual Firebase credentials.";
-                    return;
-                }
+        function unlockApp(autoUnlock = false) {
+            const pin = pinInput.value.trim();
+            
+            // Frontend strict check
+            if (pin !== SECRET_PIN) {
+                if (!autoUnlock) alert("Access Denied: Incorrect PIN.");
+                pinInput.value = '';
+                return;
+            }
 
-                firebase.initializeApp(firebaseConfig);
+            // Save PIN locally for future auto-login on this device
+            localStorage.setItem('legion_secret_pin', pin);
+            
+            lockScreen.style.display = 'none';
+            appContent.style.display = 'flex';
+
+            if (!appInitialized) {
+                initFirebase(pin);
+            } else {
+                dbRef = firebase.database().ref('/shared_data/' + pin + '/current_text');
+                attachFirebaseListener();
+            }
+        }
+
+        function lockApp() {
+            // Remove saved PIN and lock device
+            localStorage.removeItem('legion_secret_pin');
+            pinInput.value = '';
+            appContent.style.display = 'none';
+            lockScreen.style.display = 'block';
+            if (dbRef) {
+                dbRef.off(); // Stop syncing data while locked
+            }
+        }
+
+        function initFirebase(pin) {
+            try {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
                 const database = firebase.database();
                 
-                dbRef = database.ref('/shared_data/current_text');
-
-                dbRef.on('value', (snapshot) => {
-                    if (isLocalUpdate) {
-                        isLocalUpdate = false;
-                        return;
-                    }
-
-                    const val = snapshot.val();
-                    if (val !== null) {
-                        textArea.value = val;
-                    } else {
-                        textArea.value = '';
-                    }
-                    updateStatus('Synced', 'synced');
-                }, (error) => {
-                    console.error("Firebase read error:", error);
-                    updateStatus('Connection Error', 'error');
-                });
-
-                updateStatus('Ready', 'synced');
+                // Creates a secure path in the database: /shared_data/80664227/current_text
+                dbRef = database.ref('/shared_data/' + pin + '/current_text');
+                attachFirebaseListener();
+                appInitialized = true;
+                
             } catch (error) {
                 console.error("Initialization error:", error);
                 updateStatus('Error', 'error');
             }
         }
 
+        function attachFirebaseListener() {
+            dbRef.on('value', (snapshot) => {
+                if (isLocalUpdate) {
+                    isLocalUpdate = false;
+                    return;
+                }
+
+                const val = snapshot.val();
+                if (val !== null) {
+                    textArea.value = val;
+                } else {
+                    textArea.value = '';
+                }
+                updateStatus('Synced', 'synced');
+            }, (error) => {
+                console.error("Firebase read error:", error);
+                // If the user tries to bypass with a wrong PIN, Firebase kicks them out!
+                if(error.code === 'PERMISSION_DENIED') {
+                    alert("Security Alert: Permission Denied.");
+                    lockApp();
+                } else {
+                    updateStatus('Connection Error', 'error');
+                }
+            });
+            updateStatus('Ready', 'synced');
+        }
+
         function sendToCloud() {
-            if (!dbRef || firebaseConfig.apiKey === "YOUR_API_KEY") {
-                alert("Please configure Firebase credentials in the source code first.");
-                return;
-            }
+            if (!dbRef) return;
 
             const textToSave = textArea.value;
             updateStatus('Saving...', 'saving');
@@ -315,6 +423,10 @@
                     console.error("Firebase write error:", error);
                     updateStatus('Error Saving', 'error');
                     isLocalUpdate = false;
+                    if(error.code === 'PERMISSION_DENIED') {
+                        alert("Security Alert: Permission Denied.");
+                        lockApp();
+                    }
                 });
         }
 
@@ -339,15 +451,10 @@
 
         // Auto-save when typing stops
         textArea.addEventListener('input', () => {
-            if (firebaseConfig.apiKey === "YOUR_API_KEY") return;
-            
             updateStatus('Unsaved Changes', 'saving');
             clearTimeout(typingTimer);
             typingTimer = setTimeout(sendToCloud, doneTypingInterval);
         });
-
-        // Start App
-        initApp();
     </script>
 </body>
 </html>
