@@ -226,23 +226,21 @@
     </div>
 
     <!-- Firebase App (the core Firebase SDK) -->
-    <!-- Using compat libraries as requested for simple .on('value') listener syntax -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
     <script>
         // ==========================================
-        // FIREBASE CONFIGURATION PLACEHOLDER
+        // FIREBASE CONFIGURATION UPDATED BY GEMINI
         // ==========================================
-        // Replace this object with your actual Firebase project configuration
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyC8fyxMmHAipvfJaX8Ngoz9PrG4NCLY_SQ",
+            authDomain: "my-clipboard-d8c77.firebaseapp.com",
+            databaseURL: "https://my-clipboard-d8c77-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "my-clipboard-d8c77",
+            storageBucket: "my-clipboard-d8c77.appspot.com",
+            messagingSenderId: "434004415767",
+            appId: "1:434004415767:web:0699c7a18bf31ef6bed352"
         };
         // ==========================================
 
@@ -263,7 +261,6 @@
 
         function initApp() {
             try {
-                // If API key is still the placeholder, show a friendly warning.
                 if (firebaseConfig.apiKey === "YOUR_API_KEY") {
                     updateStatus('Configuration Needed', 'error');
                     textArea.value = "Welcome to LEGION CLIPBOARD!\n\nTo enable syncing, please update the 'firebaseConfig' object in the HTML source with your actual Firebase credentials.";
