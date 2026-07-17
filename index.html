@@ -164,14 +164,14 @@
                 if (encryptedVal) {
                     try {
                         const bytes = CryptoJS.AES.decrypt(encryptedVal, globalSecretPin); const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-                        if (decryptedText || decryptedText === "") { textArea.value = decryptedText; updateStatus('Synced', 'synced'); } else { textArea.value = ""; updateStatus('Synced', 'synced'); }
-                    } catch (e) { textArea.value = ""; updateStatus('Error', 'error'); }
+                        if (decryptedText.startsWith("AUTH_OK::")) { textArea.value = decryptedText.substring(9); updateStatus('Synced', 'synced'); } else { textArea.value = ""; updateStatus('Error', 'error'); lockApp(); }
+                    } catch (e) { textArea.value = ""; updateStatus('Error', 'error'); lockApp(); }
                 } else { textArea.value = ''; updateStatus('Synced', 'synced'); }
             });
         }
         function sendToCloud() {
             if (!dbRef || !globalSecretPin) return; updateStatus('Encrypting...', 'saving'); isLocalUpdate = true;
-            const encryptedText = CryptoJS.AES.encrypt(textArea.value, globalSecretPin).toString();
+            const encryptedText = CryptoJS.AES.encrypt("AUTH_OK::" + textArea.value, globalSecretPin).toString();
             dbRef.set(encryptedText).then(() => updateStatus('Secured', 'synced')).catch(() => { updateStatus('Error', 'error'); isLocalUpdate = false; });
         }
         copyBtn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(textArea.value); const orig = copyBtn.innerHTML; copyBtn.innerHTML = 'Copied!'; setTimeout(() => copyBtn.innerHTML = orig, 2000); } catch (err) {} });
